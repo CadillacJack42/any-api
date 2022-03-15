@@ -68,4 +68,23 @@ describe('any-api routes', () => {
     const res = await request(app).get('/api/v1/bands/bands');
     expect(res.body).toEqual(expected);
   });
+
+  it('Should update a band after fetching by id', async () => {
+    const band = await Band.insert({
+      name: 'The Rolling Stones',
+      members: 4,
+      inception: '5000 B.C.',
+    });
+
+    const res = await request(app)
+      .patch(`api/v1/bands/${band.id}`)
+      .send({ name: 'The Stones', inception: '1962' });
+
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      name: 'The Stones',
+      members: 4,
+      inception: '1962',
+    });
+  });
 });
