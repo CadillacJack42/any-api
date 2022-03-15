@@ -29,18 +29,17 @@ describe('any-api routes', () => {
   it('Should fetch and return a band by id', async () => {
     const band = await Band.insert({
       name: 'TOOL',
-      members: 5,
+      members: 4,
       inception: '1990',
     });
 
     const expected = {
       id: expect.any(String),
       name: 'TOOL',
-      members: 5,
+      members: 4,
       inception: '1990',
     };
 
-    console.log('BAND LOG', band);
     const res = await request(app).get(`/api/v1/bands/${band.id}`);
     expect(res.body).toEqual(expected);
   });
@@ -51,23 +50,22 @@ describe('any-api routes', () => {
       members: 4,
       inception: '5000 B.C.',
     });
+    const bandTwo = await Band.insert({
+      name: 'TOOL',
+      members: 4,
+      inception: '1990',
+    });
 
     const expected = [
       {
-        id: 1,
-        name: 'Nine Inch Nails',
-        members: 2,
-        inception: '1988',
+        ...band,
       },
       {
-        id: 2,
-        name: 'The Rolling Stones',
-        members: 4,
-        inception: '5000 B.C.',
+        ...bandTwo,
       },
     ];
 
-    const res = await request(app).get('/api/v1/bands');
+    const res = await request(app).get('/api/v1/bands/bands');
     expect(res.body).toEqual(expected);
   });
 });
