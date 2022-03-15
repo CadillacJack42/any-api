@@ -19,6 +19,7 @@ describe('any-api routes', () => {
       .send({ name: 'Nine Inch Nails', members: 2, inception: '1988' });
 
     expect(res.body).toEqual({
+      id: expect.any(String),
       name: 'Nine Inch Nails',
       members: 2,
       inception: '1988',
@@ -31,7 +32,16 @@ describe('any-api routes', () => {
       members: 5,
       inception: '1990',
     });
+
+    const expected = {
+      id: expect.any(String),
+      name: 'TOOL',
+      members: 5,
+      inception: '1990',
+    };
+
+    console.log('BAND LOG', band);
     const res = await request(app).get(`/api/v1/bands/${band.id}`);
-    expect(res.body).toEqual(band);
+    expect(res.body).toEqual(expected);
   });
 });
