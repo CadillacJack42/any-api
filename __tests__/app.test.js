@@ -44,4 +44,30 @@ describe('any-api routes', () => {
     const res = await request(app).get(`/api/v1/bands/${band.id}`);
     expect(res.body).toEqual(expected);
   });
+
+  it('Should fetch all bands from db', async () => {
+    const band = await Band.insert({
+      name: 'The Rolling Stones',
+      members: 4,
+      inception: '5000 B.C.',
+    });
+
+    const expected = [
+      {
+        id: 1,
+        name: 'Nine Inch Nails',
+        members: 2,
+        inception: '1988',
+      },
+      {
+        id: 2,
+        name: 'The Rolling Stones',
+        members: 4,
+        inception: '5000 B.C.',
+      },
+    ];
+
+    const res = await request(app).get('/api/v1/bands');
+    expect(res.body).toEqual(expected);
+  });
 });
