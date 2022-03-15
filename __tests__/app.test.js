@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const Band = require('../lib/models/Band');
 
 describe('any-api routes', () => {
   beforeEach(() => {
@@ -22,5 +23,15 @@ describe('any-api routes', () => {
       members: 2,
       inception: '1988',
     });
+  });
+
+  it('Should fetch and return a band by id', async () => {
+    const band = await Band.insert({
+      name: 'TOOL',
+      members: 5,
+      inception: '1990',
+    });
+    const res = await request(app).get(`/api/v1/bands/${band.id}`);
+    expect(res.body).toEqual(band);
   });
 });
