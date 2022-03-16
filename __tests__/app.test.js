@@ -75,9 +75,9 @@ describe('any-api routes', () => {
       members: 4,
       inception: '5000 B.C.',
     });
-
+    console.log('BAND_ID: ', band);
     const res = await request(app)
-      .patch(`api/v1/bands/${band.id}`)
+      .patch(`/api/v1/bands/${band.id}`)
       .send({ name: 'The Stones', inception: '1962' });
 
     expect(res.body).toEqual({
