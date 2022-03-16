@@ -87,4 +87,17 @@ describe('any-api routes', () => {
       inception: '1962',
     });
   });
+
+  it('Should delete a band based on id', async () => {
+    const band = await Band.insert({
+      name: 'Led Zeppelin',
+      members: 4,
+      inception: '1968',
+    });
+
+    const res = await request(app).delete(`/api/v1/bands/${band.id}`);
+
+    expect(res.body).toEqual(band);
+    expect(await Band.getById(band.id)).toBeNull();
+  });
 });
